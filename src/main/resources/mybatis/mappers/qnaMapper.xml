@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="qnaMapper">
+	<select id="boardList" resultType="com.arc.s4.model.BoardQnaVO" parameterType="com.arc.s4.util.Pager">
+		select * from
+			(select Q.*, rownum R from
+				(select * from qna
+					<choose>
+						<when test="kind == 'kt'">where title like '%'||#{search}||'%'</when>
+						<when test="kind == 'kw'">where writer like '%'||#{search}||'%'</when>
+						<otherwise>where contents like '%'||#{search}||'%'</otherwise>
+					</choose>
+				order by ref desc, step asc) Q)
+			where R between #{startRow} and #{lastRow}
+	</select>
+	
+	<select id="boardCount" resultType="java.lang.Integer" parameterType="com.arc.s4.util.Pager">
+		select count(nvl(num, 0)) from qna
+			<choose>
+				<when test="kind == 'kt'">where title like '%'||#{search}||'%'</when>
+				<when test="kind == 'kw'">where writer like '%'||#{search}||'%'</when>
+				<otherwise>where contents like '%'||#{search}||'%'</otherwise>
+			</choose>
+	</select>
+	
+</mapper>

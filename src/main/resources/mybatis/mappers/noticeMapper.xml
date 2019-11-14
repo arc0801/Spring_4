@@ -5,7 +5,24 @@
   
 <mapper namespace="noticeMapper">
 	
-	<select id="boardCount" resultType="java.lang.Integer" parameterType="com.arc.s4.util.Pager">
+	<delete id="boardDelete" parameterType="BoardVO">
+		delete from notice where num= #{num}
+	</delete>
+	
+	<update id="boardUpdate" parameterType="BoardVO">
+		update notice set title= #{title}, contents= #{contents} where num= #{num}
+	</update>
+
+	<select id="boardSelect" resultType="NoticeVO" parameterType="BoardVO">
+		select * from notice where num = #{num}
+	</select>
+	
+	<insert id="boardWrite" parameterType="BoardVO">
+		insert into notice 
+		values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0)
+	</insert>
+	
+	<select id="boardCount" resultType="Integer" parameterType="Pager">
 		select count(nvl(num,0)) from notice
 			<choose>
 				<when test="kind == 'kt'">where title like '%'||#{search}||'%'</when>
@@ -14,7 +31,7 @@
 			</choose>
 	</select>
 	
-	<select id="boardList" resultType="com.arc.s4.model.BoardNoticeVO" parameterType="com.arc.s4.util.Pager">
+	<select id="boardList" resultType="NoticeVO" parameterType="Pager">
 		select * from 
 			(select N.*, rownum R from 
 				(select * from notice 

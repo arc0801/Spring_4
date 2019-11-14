@@ -12,16 +12,24 @@
 <c:import url="../layout/nav.jsp" />
 	
 	<div class="container">
-	  <h2>Notice</h2>
+	  <h2>${board}</h2>
 	  <table class="table">
 	    <thead>
 	      <tr class="info"><th>NO</th><th>SUBJECT</th><th>NAME</th><th>DATE</th><th>HIT</th></tr>
 	    </thead>
 	    <tbody>
 	    	<c:forEach items="${list}" var="dto" varStatus="st">
+	    	<!-- mybatis가 알아서 형변환해서 꺼내주기 때문에 따로 형변환 안해줘도 됨 -->
 		      <tr>
 		        <td>${dto.num}</td>
-		        <td><a href="noticeSelect?num=${dto.num}">${dto.title}</a></td>
+		        <td>
+		        	<c:catch> <!-- try/catch -->
+		        	<%-- <c:if test="${board ne 'notice'}"> --%>
+		        		<c:forEach begin="1" end="${dto.depth}">--</c:forEach>
+		        	<%-- </c:if> --%>
+		        	</c:catch>
+		        	<a href="${board}Select?num=${dto.num}">${dto.title}</a>
+		        </td>
 		        <td>${dto.writer}</td>
 		        <td>${dto.reg_date}</td>
 		        <td>${dto.hit}</td>
@@ -42,10 +50,10 @@
 		  	</c:if>	
 	  </div>
 	  
-	  	<a href="noticeWrite" class="btn btn-info">Write</a>
+	  	<a href="${board}Write" class="btn btn-info">Write</a>
 	  	
 	  	<div> <!-- 검색창 -->
-	  		<form id="frm" action="./noticeList">
+	  		<form id="frm" action="./${board}List">
 	  			<input type="hidden" id="curPage" value="1" name="curPage">
 	  			<select name="kind">
 	  				<option id="kt" value="kt">Title</option>

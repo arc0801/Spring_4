@@ -44,8 +44,11 @@
 	  
 	  	<a href="${board}Update?num=${select.num}" class="btn btn-info">Update</a>
 	 	<a href="${board}Delete?num=${select.num}" class="btn btn-danger">Delete</a>
-
-	 	<a href="${board}Reply?num=${select.num}" class="btn btn-warning">Reply</a>
+		<c:catch>
+			<c:if test="${board eq 'qna'}">
+		 		<a href="${board}Reply?num=${select.num}" class="btn btn-warning">Reply</a>
+		 	</c:if>
+	 	</c:catch>
 		<a href="${board}List" class="btn btn-primary">List</a>
 	</div>
 	

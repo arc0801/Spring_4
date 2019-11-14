@@ -18,25 +18,9 @@ public class BoardQnaService implements BoardService {
 	private BoardQnaDAO boardQnaDAO;
 	
 	public int boardReply(BoardVO boardVO) throws Exception {
-		BoardQnaVO parent = (BoardQnaVO)boardQnaDAO.boardSelect(boardVO); //부모글에 대한 정보 받아옴
-		int result = boardQnaDAO.boardReplyUpdate(parent);
-		parent.setTitle(boardVO.getTitle());
-		parent.setWriter(boardVO.getWriter());
-		parent.setContents(boardVO.getContents());
-		parent.setStep(parent.getStep()+1);
-		parent.setDepth(parent.getDepth()+1);
+		boardQnaDAO.boardReplyUpdate(boardVO);
 		
-		/*
-		BoardQnaVO child = new BoardQnaVO();
-		child.setTitle(boardVO.getTitle());
-		child.setWriter(boardVO.getWriter());
-		child.setContents(boardVO.getContents());
-		child.setRef(parent.getRef());
-		child.setStep(parent.getStep()+1);
-		child.setDepth(parent.getDepth()+1);
-		*/
-		
-		return boardQnaDAO.boardReply(parent);
+		return boardQnaDAO.boardReply(boardVO);
 	}
 	
 	@Override

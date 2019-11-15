@@ -4,7 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="qnaMapper">
-
+	<sql id="bs">
+		<choose>
+			<when test="kind == 'kt'">where title like '%'||#{search}||'%'</when>
+			<when test="kind == 'kw'">where writer like '%'||#{search}||'%'</when>
+			<otherwise>where contents like '%'||#{search}||'%'</otherwise>
+		</choose>
+	</sql>
+	
 	<insert id="boardReply" parameterType="QnaVO">
 		insert into qna values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0, #{ref}, #{step}, #{depth})
 	</insert>
@@ -34,22 +41,14 @@
 		select * from
 			(select Q.*, rownum R from
 				(select * from qna
-					<choose>
-						<when test="kind == 'kt'">where title like '%'||#{search}||'%'</when>
-						<when test="kind == 'kw'">where writer like '%'||#{search}||'%'</when>
-						<otherwise>where contents like '%'||#{search}||'%'</otherwise>
-					</choose>
+					<include refid="bs"></include>
 				order by ref desc, step asc) Q)
 			where R between #{startRow} and #{lastRow}
 	</select>
 	
 	<select id="boardCount" resultType="Integer" parameterType="Pager">
 		select count(nvl(num, 0)) from qna
-			<choose>
-				<when test="kind == 'kt'">where title like '%'||#{search}||'%'</when>
-				<when test="kind == 'kw'">where writer like '%'||#{search}||'%'</when>
-				<otherwise>where contents like '%'||#{search}||'%'</otherwise>
-			</choose>
+			<include refid="bs"></include>
 	</select>
 	
 </mapper>

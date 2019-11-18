@@ -22,12 +22,12 @@
 		position: absolute;
 		right: 15px;
 	}
-	#id {
-		width: 92%;
-		float: left;
-	}
 	#btn {
 		float: left;
+	}
+	#check {
+		clear: both;
+		margin-left: 18%;
 	}
 </style>
 </head>
@@ -42,8 +42,10 @@
 				<label class="control-label col-sm-2" for="id">ID:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="id"	placeholder="Enter ID" name="id">
-					<input type="button" class="btn btn-warning" id="checkID" value="중복확인">
 				</div>
+				
+					<span id="check"></span>
+				
 			</div>
 			
 			<div class="form-group">
@@ -91,7 +93,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-info" id="join">Join</button>
+					<input type="button" class="btn btn-info" value="Join">
 				</div>
 			</div>
 			
@@ -99,10 +101,32 @@
 	</div>
 	
 <script type="text/javascript">
-	//$(선택자).action(callback function);
-	$('#checkID').click(function() {
-		var id = $('#id').val();
-		window.open("./memberIdCheck?id="+id, "", "width=600, height=300, top=200, left=400");
+	var idCheck = false;  //false : 중복된 ID 또는 중복검사를 하지 않은 경우
+						  //true : 중복되지 않은 ID
+	
+	$("#join").click(function() {
+		alert();
+	});
+
+	$('#id').blur(function() {
+		var id = $(this).val();
+		
+		$.get("./memberIdCheck?id="+id, function(data) {
+			
+			data = data.trim();
+			
+			if(data=='pass'){
+				$('#check').html("사용가능한 ID입니다.");
+				$('#check').attr("class", "text-success bg-success");
+				idCheck = true;
+			}else {				
+				$('#check').html("중복된 ID입니다.");
+				$('#check').attr("class", "text-danger bg-danger");
+				idCheck = false;
+				$('#id').val("");
+				$('#id').focus();
+			}
+		});
 	});
 </script>
 </body>

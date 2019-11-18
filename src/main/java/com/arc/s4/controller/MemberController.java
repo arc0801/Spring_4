@@ -23,13 +23,36 @@ public class MemberController {
 	@Inject
 	private MemberServiceImpl memberServiceImpl;
 	
+	@GetMapping("memberDelete")
+	public ModelAndView memberDelete(MemberVO memberVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		int result = memberServiceImpl.memberDelete(memberVO);
+		String msg = "Delete Fail";
+		if(result>0) {
+			msg = "Delete Success";
+			mv.addObject("msg", msg);
+		}
+		mv.addObject("path", "../");
+		mv.setViewName("common/common_result");
+		
+		return mv;
+	}
+	
 	@PostMapping("memberUpdate")
-	public String memberUpdate(MemberVO memberVO, HttpSession session) throws Exception {
+	public ModelAndView memberUpdate(MemberVO memberVO, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		int result = memberServiceImpl.memberUpdate(memberVO);
+		String msg = "Update Fail";
 		
-		memberServiceImpl.memberUpdate(memberVO);
-		session.setAttribute("member", memberVO);
+		if(result>0) {
+			msg = "Update Success";
+			mv.addObject("msg", msg);
+			session.setAttribute("member", memberVO);
+		}
+		mv.addObject("path", "memberMypage");
+		mv.setViewName("common/common_result");
 		
-		return "redirect:./memberMypage";
+		return mv;
 	}
 	
 	@GetMapping("memberUpdate")

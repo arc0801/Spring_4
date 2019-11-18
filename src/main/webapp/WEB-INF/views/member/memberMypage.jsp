@@ -51,10 +51,18 @@
 				</div>
 			</div>
 	
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="po int">Point:</label>
+				<div class="col-sm-10">
+					<input type="number" class="form-control" id="point" value="${member.point}" readonly="readonly" name="point">
+				</div>
+			</div>
+			
 			<div class="col-sm-offset-2 col-sm-10">
 				<a href="memberUpdate" class="btn btn-info" id="update">Update</a>
 				<a href="memberDelete" class="btn btn-danger" id="delete">탈퇴</a>
 			</div>
+			
 		</form>
 	</div>
 	

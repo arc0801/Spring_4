@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int memberDelete(MemberVO memberVO) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return memberDAOImpl.memberDelete(memberVO);
 	}
 
 	@Override

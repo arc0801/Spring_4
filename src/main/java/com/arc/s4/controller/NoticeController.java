@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +23,18 @@ public class NoticeController {
 	@Inject
 	private BoardNoticeService boardNoticeService;
 
+	@GetMapping("noticeResult")
+	public ModelAndView noticeResult(Pager pager) throws Exception {
+		pager.setPerPage(5);
+		List<BoardVO> ar = boardNoticeService.boardList(pager);
+		//System.out.println(ar.size());
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("list", ar);
+		mv.setViewName("board/noticeResult");
+		
+		return mv;
+	}
+	
 	@RequestMapping("noticeDelete")
 	public ModelAndView boardDelete(BoardVO boardVO) throws Exception {
 		ModelAndView mv = new ModelAndView();

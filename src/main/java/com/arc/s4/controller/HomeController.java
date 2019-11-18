@@ -3,11 +3,14 @@ package com.arc.s4.controller;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,5 +38,27 @@ public class HomeController {
 		
 		return "index";
 	}
+	
+	@GetMapping("/selectAnimal")
+	public void selectAnimal(Model model, String kind) throws Exception {
+		if(kind.equals("D")) {
+			String [] kinds = {"치와와", "푸들", "말티즈"};
+			model.addAttribute("kind", kinds);
+		}else if(kind.equals("C")) {
+			String [] kinds = {"숏컷", "샴", "페르시안"};
+			model.addAttribute("kind", kinds);
+		}else {
+			String [] kinds = {"참새", "앵무새", "비둘기"};
+			model.addAttribute("kind", kinds);
+		}
+	}
+	
+	@PostMapping("/testAjax")
+	public void testAjax(Model model, int num) throws Exception {
+		Random r = new Random();
+		num = r.nextInt(num);
+		model.addAttribute("num", num);
+	}
+	
 	
 }

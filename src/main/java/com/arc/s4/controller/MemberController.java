@@ -102,6 +102,19 @@ public class MemberController {
 		if(memberVO == null) {
 			result = "pass";
 		}
+		
+		model.addAttribute("result", result);
+	}
+	
+	@PostMapping("memberEmailCheck")
+	public void memberEmailCheck(MemberVO memberVO, Model model) throws Exception {
+		memberVO = memberServiceImpl.memberEmailCheck(memberVO);
+		String result = "unpass";
+
+		if(memberVO == null) {
+			result = "pass";
+		}
+
 		model.addAttribute("result", result);
 	}
 	

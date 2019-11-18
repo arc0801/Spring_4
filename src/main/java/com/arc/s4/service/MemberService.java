@@ -4,6 +4,9 @@ import com.arc.s4.model.MemberVO;
 
 public interface MemberService {
 	
+	//emailCheck
+	public MemberVO memberEmailCheck(MemberVO memberVO) throws Exception;
+	
 	//IdCheck
 	public MemberVO memberIdCheck(MemberVO memberVO) throws Exception;
 	

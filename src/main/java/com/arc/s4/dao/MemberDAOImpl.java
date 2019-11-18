@@ -15,6 +15,11 @@ public class MemberDAOImpl implements MemberDAO {
 	private final static String NAMESPACE = "memberMapper.";
 	
 	@Override
+	public MemberVO memberEmailCheck(MemberVO memberVO) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"memberEmailCheck", memberVO);
+	}
+	
+	@Override
 	public MemberVO memberIdCheck(MemberVO memberVO) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE+"memberIdCheck", memberVO);

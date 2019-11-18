@@ -22,12 +22,8 @@
 		position: absolute;
 		right: 15px;
 	}
-	#btn {
-		float: left;
-	}
-	#check {
-		clear: both;
-		margin-left: 18%;
+	.btn {
+		float: right;
 	}
 </style>
 </head>
@@ -43,9 +39,7 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="id"	placeholder="Enter ID" name="id">
 				</div>
-				
-					<span id="check"></span>
-				
+				<div id="check_id"></div>
 			</div>
 			
 			<div class="form-group">
@@ -53,6 +47,7 @@
 				<div class="col-sm-10">
 					<input type="password" class="form-control" id="pw"	placeholder="Enter Password">
 				</div>
+				<div id="check_pw"></div>
 			</div>
 			
 			<div class="form-group">
@@ -60,6 +55,7 @@
 				<div class="col-sm-10">
 					<input type="password" class="form-control" id="pw2" placeholder="Enter Password" name="pw">
 				</div>
+				<div id="check_pw2"></div>
 			</div>
 			
 			<div class="form-group">
@@ -67,6 +63,7 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
 				</div>
+				<div id="check_name"></div>
 			</div>
 			
 			<div class="form-group">
@@ -74,6 +71,7 @@
 				<div class="col-sm-10">
 					<input type="email" class="form-control" id="email"	placeholder="Enter Email" name="email">
 				</div>
+				<div id="check_email"></div>
 			</div>
 			
 			<div class="form-group">
@@ -81,19 +79,20 @@
 				<div class="col-sm-10">
 					<input type="date" class="form-control" id="birth" placeholder="Enter Birth" name="birth">
 				</div>
+				<div id="check_birth"></div>
 			</div>
 			
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="gender">Gender:</label>
 				<div class="col-sm-10" id="checkbox">
-					<input type="radio" value="F" id="gender" name="gender">Female
+					<input type="radio" value="F" id="gender" name="gender" checked="checked">Female
 					<input type="radio" value="M" id="gender" name="gender">Male
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="button" class="btn btn-info" value="Join">
+					<input type="button" id="join" class="btn btn-info" value="Join">
 				</div>
 			</div>
 			
@@ -101,33 +100,114 @@
 	</div>
 	
 <script type="text/javascript">
-	var idCheck = false;  //false : 중복된 ID 또는 중복검사를 하지 않은 경우
+	var joinCheck = false;  //false : 중복된 ID 또는 중복검사를 하지 않은 경우
 						  //true : 중복되지 않은 ID
 	
 	$("#join").click(function() {
-		alert();
+		alert(joinCheck);
 	});
 
 	$('#id').blur(function() {
 		var id = $(this).val();
 		
-		$.get("./memberIdCheck?id="+id, function(data) {
-			
-			data = data.trim();
-			
-			if(data=='pass'){
-				$('#check').html("사용가능한 ID입니다.");
-				$('#check').attr("class", "text-success bg-success");
-				idCheck = true;
-			}else {				
-				$('#check').html("중복된 ID입니다.");
-				$('#check').attr("class", "text-danger bg-danger");
-				idCheck = false;
-				$('#id').val("");
-				$('#id').focus();
-			}
-		});
+		if(id!=""){
+			$.get("./memberIdCheck?id="+id, function(data) {
+				
+				data = data.trim();
+				
+				if(data=='pass'){
+					$('#check_id').html("사용가능한 ID입니다.");
+					$('#check_id').attr("class", "text-success bg-success");
+					joinCheck = true;
+				}else {				
+					$('#check_id').html("중복된 ID입니다.");
+					$('#check_id').attr("class", "text-danger bg-danger");
+					joinCheck = false;
+					$('#id').val("");
+					//$('#id').focus();
+				}
+			});
+		}else {
+			$('#check_id').html("ID를 입력해주세요.");
+			$('#check_id').attr("class", "text-warning bg-warning");
+			joinCheck = false;
+			$('#id').val("");
+			//$('#id').focus();
+		}
 	});
+	
+	
+	$('#email').blur(function() {
+		var email = $(this).val();
+		
+	if (email != "") {
+			$.post("./memberEmailCheck", {email:email}, function(data) {
+
+				dat = data.trim();
+
+				if (data == 'pass') {
+					$('#check_email').html("사용가능한 E-mail입니다");
+					$('#check_email').attr("class", "text-success bg-success");
+					joinCheck = true;
+				} else {
+					$('#check_email').html("중복된 E-mail입니다.");
+					$('#check_email').attr("class", "text-danger bg-danger");
+					joinCheck = false;
+					$('#email').val("");
+				}
+			});
+		}else{
+			$('#check_email').html("E-mail을 입력해주세요.");
+			$('#check_email').attr("class", "text-warning bg-warning");
+			joinCheck = false;
+			$('#email').val("");
+		}
+	});
+
+	$('#pw').blur(function() {
+		if ($(this).val() == "") {
+			$('#check_pw').html("Password를 입력해주세요.");
+			$('#check_pw').attr("class", "text-warning bg-warning");
+			joinCheck = false;
+			$('#pw').val("");
+		}else{
+			$('#check_pw').html("");
+		}
+	});
+	
+	$('#pw2').blur(function() {
+		if ($(this).val() == "") {
+			$('#check_pw2').html("Password를 입력해주세요.");
+			$('#check_pw2').attr("class", "text-warning bg-warning");
+			joinCheck = false;
+			$('#pw2').val("");
+		}else{
+			$('#check_pw2').html("");
+		}
+	});
+	
+	$('#name').blur(function() {
+		if ($(this).val() == "") {
+			$('#check_name').html("Name를 입력해주세요.");
+			$('#check_name').attr("class", "text-warning bg-warning");
+			joinCheck = false;
+			$('#name').val("");
+		}else{
+			$('#check_name').html("");
+		}
+	});
+	
+	$('#birth').blur(function() {
+		if ($(this).val() == "") {
+			$('#check_birth').html("Birth를 입력해주세요.");
+			$('#check_birth').attr("class", "text-warning bg-warning");
+			joinCheck = false;
+			$('#birth').val("");
+		}else{
+			$('#check_birth').html("");
+		}
+	});
+	
 </script>
 </body>
 </html>

@@ -21,6 +21,10 @@
 		from member where id=#{id} and pw=#{pw}
 	</select>
 
+	<select id="memberEmailCheck" resultType="MemberVO" parameterType="MemberVO">
+		select email from member where email=#{email}
+	</select>
+
 	<select id="memberIdCheck" resultType="MemberVO" parameterType="MemberVO">
 		select id from member where id=#{id}
 	</select>

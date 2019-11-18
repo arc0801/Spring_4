@@ -3,6 +3,7 @@ package com.arc.s4.controller;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,16 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
+	@RequestMapping(value = "/getNum", method = {RequestMethod.GET, RequestMethod.POST})
+	public void getNum(int num, Model model) throws Exception {
+		Random r = new Random();
+		num = r.nextInt(num);
+		model.addAttribute("num", num);
+	}
+	
+	
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -35,5 +46,4 @@ public class HomeController {
 		
 		return "index";
 	}
-	
 }

@@ -3,6 +3,7 @@ package com.arc.s4.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +56,8 @@ public class NoticeController {
 	public ModelAndView boardUpdate(BoardVO boardVO) throws Exception {
 		BoardVO boardVO2 = boardNoticeService.boardSelect(boardVO);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("update", boardVO2);
 		mv.addObject("board", "notice");
+		mv.addObject("update", boardVO2);
 		mv.setViewName("board/boardUpdate");
 		
 		return mv;
@@ -74,9 +75,9 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "noticeWrite", method = RequestMethod.POST)
-	public ModelAndView boardWrite(BoardVO boardVO) throws Exception {
+	public ModelAndView boardWrite(BoardVO boardVO, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		int result = boardNoticeService.boardWrite(boardVO);
+		int result = boardNoticeService.boardWrite(boardVO, session);
 		if(result>0) { 
 			mv.addObject("msg", "WriteSuccess");
 			//mv.setViewName("redirect:./noticeList");

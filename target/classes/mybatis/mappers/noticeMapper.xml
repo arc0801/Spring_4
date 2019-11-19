@@ -25,7 +25,7 @@
 	</select>
 	
 	<insert id="boardWrite" parameterType="BoardVO">
-		insert into notice 
+		insert into notice(num, title, writer, contents, reg_date, hit) 
 		values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0)
 	</insert>
 	

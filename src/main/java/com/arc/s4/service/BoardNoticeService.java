@@ -3,12 +3,15 @@ package com.arc.s4.service;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.arc.s4.dao.BoardNoticeDAO;
+import com.arc.s4.model.BoardNoticeVO;
 import com.arc.s4.model.BoardVO;
+import com.arc.s4.util.FileSaver;
 import com.arc.s4.util.Pager;
 
 @Service
@@ -31,15 +34,22 @@ public class BoardNoticeService implements BoardService {
 	}
 
 	@Override
-	public int boardWrite(BoardVO boardVO) throws Exception {
+	public int boardWrite(BoardVO boardVO, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
+		String realPath = session.getServletContext().getRealPath("resources/upload/notice");
+		FileSaver fs = new FileSaver();
+		String fileName = fs.save(realPath, boardVO.getFile());
+		
+		boardVO.setFileName(fileName);
+		boardVO.setOriginalFileName(boardVO.getFile().getOriginalFilename());
+		
 		return boardNoticeDAO.boardWrite(boardVO);
 	}
 
 	@Override
 	public int boardUpdate(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub
-		return boardNoticeDAO.boardWrite(boardVO);
+		return boardNoticeDAO.boardUpdate(boardVO);
 	}
 
 	@Override

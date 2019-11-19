@@ -5,6 +5,8 @@
   
   <configuration>
   	<typeAliases>
+  		<typeAlias type="com.arc.s4.model.MemberVO" alias="MemberVO"/>
+  	
   		<typeAlias type="com.arc.s4.model.BoardVO" alias="BoardVO"/>
   		<typeAlias type="com.arc.s4.model.BoardNoticeVO" alias="NoticeVO"/>
   		<typeAlias type="com.arc.s4.model.BoardQnaVO" alias="QnaVO"/>

@@ -32,7 +32,7 @@
 	<div class="container">
 		<h2>Member Join Page</h2>
 		<br>
-		<form class="form-horizontal" action="memberJoin" method="post">
+		<form id="frm" class="form-horizontal" action="memberJoin" method="post" enctype="multipart/form-data">
 		
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="id">ID:</label>
@@ -90,6 +90,15 @@
 				</div>
 			</div>
 			
+			<!-- File -->
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="file">File:</label>
+				<div class="col-sm-10">
+					<input type="file" class="form-control" id="file" name="file">
+				</div>
+				<div id="check_file"></div>
+			</div>
+			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<input type="button" id="join" class="btn btn-info" value="Join">
@@ -104,7 +113,10 @@
 						  //true : 중복되지 않은 ID
 	
 	$("#join").click(function() {
-		alert(joinCheck);
+		//alert(joinCheck);
+		if(joinCheck){
+			$("#frm").submit();
+		}
 	});
 
 	$('#id').blur(function() {
@@ -143,7 +155,7 @@
 	if (email != "") {
 			$.post("./memberEmailCheck", {email:email}, function(data) {
 
-				dat = data.trim();
+				data = data.trim();
 
 				if (data == 'pass') {
 					$('#check_email').html("사용가능한 E-mail입니다");
@@ -185,6 +197,8 @@
 			$('#check_pw2').html("");
 		}
 	});
+	
+	//if($('#pw').val == $('#pw2'))
 	
 	$('#name').blur(function() {
 		if ($(this).val() == "") {

@@ -1,5 +1,7 @@
 package com.arc.s4.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberVO {
 
 	private String id;
@@ -9,6 +11,9 @@ public class MemberVO {
 	private String birth;
 	private String gender;
 	private int point;
+	private MultipartFile file;
+	private String fileName;
+	private String originalName;
 	
 	public String getId() {
 		return id;
@@ -51,5 +56,23 @@ public class MemberVO {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getOriginalName() {
+		return originalName;
+	}
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
 	}
 }

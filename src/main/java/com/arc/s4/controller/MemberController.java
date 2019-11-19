@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.arc.s4.model.MemberVO;
@@ -24,13 +26,16 @@ public class MemberController {
 	private MemberServiceImpl memberServiceImpl;
 	
 	@GetMapping("memberDelete")
-	public ModelAndView memberDelete(MemberVO memberVO) throws Exception {
+	public ModelAndView memberDelete(HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
 		int result = memberServiceImpl.memberDelete(memberVO);
+		
 		String msg = "Delete Fail";
 		if(result>0) {
 			msg = "Delete Success";
 			mv.addObject("msg", msg);
+			session.invalidate();
 		}
 		mv.addObject("path", "../");
 		mv.setViewName("common/common_result");
@@ -108,6 +113,7 @@ public class MemberController {
 	
 	@PostMapping("memberEmailCheck")
 	public void memberEmailCheck(MemberVO memberVO, Model model) throws Exception {
+		System.out.println(memberVO.getEmail());
 		memberVO = memberServiceImpl.memberEmailCheck(memberVO);
 		String result = "unpass";
 
@@ -119,9 +125,20 @@ public class MemberController {
 	}
 	
 	@PostMapping("memberJoin")
-	public ModelAndView memberJoin(MemberVO memberVO) throws Exception {
+	public ModelAndView memberJoin(MemberVO memberVO, HttpSession session, HttpServletRequest request) throws Exception {
+		//System.out.println("Name : "+file.getName());
+		//System.out.println("OrigninalFileName : "+file.getOriginalFilename());
+		//System.out.println("Size : "+file.getSize());
+		
+		//session.getServletContext().getRealPath("resources/upload");
+		//session.getServletContext()-application(tomcat)의 전체 정보를 담고 있음
+		
+		//System.out.println(session.getServletContext().getRealPath("resources/upload"));
+		//System.out.println(request.getSession().getServletContext().getRealPath("resources/upload"));
+		//둘 중에 맘에 드는걸로~
+		
 		ModelAndView mv = new ModelAndView();
-		int result = memberServiceImpl.memberJoin(memberVO);
+		int result = memberServiceImpl.memberJoin(memberVO, session);
 		
 		if(result>0) {
 			mv.addObject("msg", "Join Success");

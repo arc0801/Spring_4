@@ -1,11 +1,15 @@
 package com.arc.s4.service;
 
+import java.io.File;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
 import com.arc.s4.dao.MemberDAOImpl;
 import com.arc.s4.model.MemberVO;
+import com.arc.s4.util.FileSaver;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -25,8 +29,21 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int memberJoin(MemberVO memberVO) throws Exception {
+	public int memberJoin(MemberVO memberVO, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
+		//Server HDD에 파일 저장
+		//1. 파일을 저장할 실제 경로를 받아옴
+		String realPath = session.getServletContext().getRealPath("resources/upload/member");
+		
+		
+		FileSaver fs = new FileSaver();
+		String fileName = fs.save3(realPath, memberVO.getFile());
+		
+		//String fileName = fs.save(realPath, memberVO.getFile());
+		memberVO.setFileName(fileName);
+		memberVO.setOriginalName(memberVO.getFile().getOriginalFilename());
+		
+		//return 0;
 		return memberDAOImpl.memberJoin(memberVO);
 	}
 

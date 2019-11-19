@@ -58,11 +58,14 @@
 				</div>
 			</div>
 			
+			<div class="form-group">
+				<img alt="" src="../resources/upload/member/${member.fileName}">
+			</div>
+			
 			<div class="col-sm-offset-2 col-sm-10">
 				<a href="memberUpdate" class="btn btn-info" id="update">Update</a>
 				<a href="memberDelete" class="btn btn-danger" id="delete">탈퇴</a>
 			</div>
-			
 		</form>
 	</div>
 	

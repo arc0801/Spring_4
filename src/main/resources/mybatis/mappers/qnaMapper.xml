@@ -34,8 +34,28 @@
 		update qna set title= #{title}, contents= #{contents} where num= #{num}
 	</update>
 	
-	<select id="boardSelect" resultType="QnaVO" parameterType="QnaVO">
-		select * from qna where num = #{num}
+	<resultMap type="QnaVO" id="boardFile">
+		<id property="num" column="num" />
+		<result property="title" column="title"/>
+		<result property="writer" column="writer"/>
+		<result property="contents" column="contents"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="hit" column="hit"/>
+		<result property="ref" column="ref"/>
+		<result property="step" column="step"/>
+		<result property="depth" column="depth"/>
+		<collection property="files" javaType="java.util.List" ofType="QnaFilesVO">
+			<id property="fnum" column="fnum"/>
+			<result property="fname" column="fname"/>
+			<result property="oname" column="oname"/>
+		</collection>
+	</resultMap>
+	
+	<select id="boardSelect" resultMap="boardFile" parameterType="QnaVO">
+		select Q.*, F.fnum, F.fname, F.oname
+		    from qna Q full outer join qnafiles F
+		    on Q.num = F.num
+		    where Q.num=#{num}
 	</select>
 
 	<insert id="boardWrite" parameterType="QnaVO">

@@ -34,13 +34,16 @@
 		update qna set title= #{title}, contents= #{contents} where num= #{num}
 	</update>
 	
-	<select id="boardSelect" resultType="QnaVO" parameterType="BoardVO">
+	<select id="boardSelect" resultType="QnaVO" parameterType="QnaVO">
 		select * from qna where num = #{num}
 	</select>
 
-	<insert id="boardWrite" parameterType="BoardVO">
+	<insert id="boardWrite" parameterType="QnaVO">
+		<selectKey keyProperty="num" resultType="Integer" order="BEFORE">
+			select board_seq.nextval from dual
+		</selectKey>
 		insert into qna 
-		values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0, board_seq.currval, 0, 0)
+		values(#{num}, #{title}, #{writer}, #{contents}, sysdate, 0, board_seq.currval, 0, 0)
 	</insert>
 
 	<select id="boardList" resultType="QnaVO" parameterType="Pager">

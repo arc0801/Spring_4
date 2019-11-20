@@ -39,6 +39,15 @@ public class BoardNoticeService implements BoardService {
 	@Override
 	public BoardVO boardSelect(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub
+		//boardVO = boardNoticeDAO.boardSelect(boardVO);
+		
+		//BoardNoticeVO boardNoticeVO = (BoardNoticeVO)boardVO;
+		
+		//List<NoticeFilesVO> ar = noticeFilesDAO.fileList(boardVO.getNum());
+		
+		//boardNoticeVO.setFiles(ar);
+		
+		//return boardNoticeVO;
 		return boardNoticeDAO.boardSelect(boardVO);
 	}
 
@@ -48,18 +57,17 @@ public class BoardNoticeService implements BoardService {
 		String realPath = session.getServletContext().getRealPath("resources/upload/notice");
 		NoticeFilesVO noticeFilesVO = new NoticeFilesVO();
 		int result = boardNoticeDAO.boardWrite(boardVO);
-		System.out.println(boardVO.getNum());
+		//System.out.println(boardVO.getNum());
+		noticeFilesVO.setNum(boardVO.getNum());
 		
-		/*
 		for(MultipartFile multipartFile:file) {
 			
 			String fileName = fileSaver.save(realPath, multipartFile);
 			noticeFilesVO.setFname(fileName);
 			noticeFilesVO.setOname(multipartFile.getOriginalFilename());
 			
-			noticeFilesDAO.fileWrite(noticeFilesVO);
+			result = noticeFilesDAO.fileWrite(noticeFilesVO);
 		}
-		*/
 		
 		return result;
 	}

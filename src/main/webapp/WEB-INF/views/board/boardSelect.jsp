@@ -42,6 +42,12 @@
 		${select.contents}
 	  </div>
 	  
+	  <div>
+	  	<c:forEach items="${select.files}" var="file">
+	  		<a href="../resources/upload/${board}/${file.fname}">${file.oname}</a>
+	  	</c:forEach>
+	  </div>
+	  
 	  	<a href="${board}Update?num=${select.num}" class="btn btn-info">Update</a>
 	 	<a href="${board}Delete?num=${select.num}" class="btn btn-danger">Delete</a>
 		<c:catch>

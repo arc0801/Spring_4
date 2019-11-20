@@ -3,10 +3,12 @@ package com.arc.s4.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.arc.s4.model.BoardQnaVO;
@@ -99,9 +101,9 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value = "qnaWrite", method = RequestMethod.POST)
-	public ModelAndView boardWrite(BoardVO boardVO) throws Exception {
+	public ModelAndView boardWrite(BoardVO boardVO, MultipartFile [] file, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		int result = boardQnaService.boardWrite(boardVO);
+		int result = boardQnaService.boardWrite(boardVO, file, session);
 		if(result>0) {
 			mv.addObject("msg", "WriteSuccess");
 		}else {

@@ -24,9 +24,13 @@
 		select * from notice where num = #{num}
 	</select>
 	
+	<select id="getNum" resultType="Integer">
+		select board_seq.nextval from dual
+	</select>
+	
 	<insert id="boardWrite" parameterType="BoardVO">
 		insert into notice(num, title, writer, contents, reg_date, hit) 
-		values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0)
+		values(#{num}, #{title}, #{writer}, #{contents}, sysdate, 0)
 	</insert>
 	
 	<select id="boardCount" resultType="Integer" parameterType="Pager">

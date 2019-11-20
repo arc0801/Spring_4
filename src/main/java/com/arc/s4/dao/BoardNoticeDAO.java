@@ -17,6 +17,10 @@ public class BoardNoticeDAO implements BoardDAO { //구현
 	private SqlSession sqlSession;
 	private final static String NAMESPACE = "noticeMapper.";
 	
+	public int getNum() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"getNum");
+	}
+	
 	@Override
 	public List<BoardVO> boardList(Pager pager) throws Exception {
 		// TODO Auto-generated method stub

@@ -32,8 +32,13 @@
 	    <div id="files">
 		    <div class="form-group tt">
 		      <label for="file">File:</label>
-		      <input type="file" class="form-control" id="file" name="file">
-		      <input type="button" class="btn btn-danger del" value="Del">
+		      <br>
+		      <div class="col-sm-11">
+		     	 <input type="file" class="form-control" id="file" name="file">
+		      </div>
+		      <div class="col-sm-1">
+		     	 <input type="button" class="btn btn-danger del" value="Del">
+		      </div>
 		    </div>
 	    </div>
 	    
@@ -47,12 +52,16 @@
 	var files = $('#files').html();
 	$('#files').empty(); //remove vs empty ; 나 포함 전체 지우기 vs 자식만 지우기
 	var check = 0;
+	var index = 0; //index 번호
 	
 	$('#files').on("click", ".del", function() {
 		//event.preventDefault();
 		//alert("del");
-		//$("#files div:last").remove();
-		$(this).closest(".tt").remove();
+		//$("#files div:last").remove(); //선택된 게 지워지질 않아 ㅜㅠ
+		//1. $(this).closest(".tt").remove(); //가장 가까운 거!!
+		//2. $(this).parent().parent().remove();
+		//3. $(this).parents(".form-group").remove();
+		$(this).parentsUntil("#files").remove();
 		check--;
 	});   //add file은 버튼을 눌러야 추가되는데, 추가되기 전에 이벤트가 실행되므로 이벤트가 실행되지 않는다.
 			

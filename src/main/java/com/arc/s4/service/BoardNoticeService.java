@@ -70,6 +70,7 @@ public class BoardNoticeService implements BoardService {
 		
 		for(MultipartFile multipartFile:file) {
 			if(multipartFile.getOriginalFilename()!="") {
+				//multipartFile.getSize()!=0
 				String fileName = fileSaver.save(realPath, multipartFile);
 				noticeFilesVO.setFname(fileName);
 				noticeFilesVO.setOname(multipartFile.getOriginalFilename());

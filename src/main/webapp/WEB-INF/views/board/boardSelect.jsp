@@ -38,11 +38,17 @@
 	      </tr>
 	    </tbody>
 	  </table>
+	  
 	  <div class="contents">
 		${select.contents}
 	  </div>
 	  
+	  <div class="form-group">
+	      <label for="contents">Contents:</label>
+	      <textarea  rows="20" cols="50" class="form-control" id="contents" value="${select.contents}" name="contents"></textarea>
+	    </div>
 	  <div>
+	  
 	  	<c:forEach items="${select.files}" var="file">
 	  		<a href="./fileDown?fnum=${file.fnum}">${file.oname}</a>
 	  	</c:forEach>

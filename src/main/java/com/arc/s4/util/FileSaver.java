@@ -63,15 +63,15 @@ public class FileSaver {
 		Calendar ca = Calendar.getInstance();
 		Long name = ca.getTimeInMillis();
 		int index = multipartFile.getOriginalFilename().lastIndexOf(".");
-
+	
 		//System.out.println(a);
 		String fileName = name+multipartFile.getOriginalFilename().substring(index);
 		//System.out.println(sub);
 		
-		file = new File(realPath, fileName); //폴더, 파일명
+		file = new File(realPath, fileName); //폴더,파일명
 		//System.out.println(String.valueOf(name)+sub);
 		FileCopyUtils.copy(multipartFile.getBytes(), file); //꺼내올 파일, 저장할 파일
-		
+	
 		return fileName;
 	}
 }

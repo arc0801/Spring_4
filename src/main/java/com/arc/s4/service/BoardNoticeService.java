@@ -29,6 +29,14 @@ public class BoardNoticeService implements BoardService {
 	@Inject
 	private NoticeFilesDAO noticeFilesDAO;
 	
+	public NoticeFilesVO fileSelect(NoticeFilesVO noticeFilesVO) throws Exception {
+		return noticeFilesDAO.fileSelect(noticeFilesVO);
+	}
+	
+	public int fileDelete(NoticeFilesVO noticeFilesVO) throws Exception {
+		return noticeFilesDAO.fileDelete(noticeFilesVO);
+	}
+	
 	@Override
 	public List<BoardVO> boardList(Pager pager) throws Exception {
 		pager.makeRow();
@@ -61,20 +69,35 @@ public class BoardNoticeService implements BoardService {
 		noticeFilesVO.setNum(boardVO.getNum());
 		
 		for(MultipartFile multipartFile:file) {
-			
-			String fileName = fileSaver.save(realPath, multipartFile);
-			noticeFilesVO.setFname(fileName);
-			noticeFilesVO.setOname(multipartFile.getOriginalFilename());
-			
-			result = noticeFilesDAO.fileWrite(noticeFilesVO);
+			if(multipartFile.getOriginalFilename()!="") {
+				String fileName = fileSaver.save(realPath, multipartFile);
+				noticeFilesVO.setFname(fileName);
+				noticeFilesVO.setOname(multipartFile.getOriginalFilename());
+				
+				result = noticeFilesDAO.fileWrite(noticeFilesVO);
+			}
 		}
 		
 		return result;
 	}
 
 	@Override
-	public int boardUpdate(BoardVO boardVO) throws Exception {
+	public int boardUpdate(BoardVO boardVO, MultipartFile [] file, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
+		String realPath = session.getServletContext().getRealPath("resources/upload/notice");
+		
+		NoticeFilesVO noticeFilesVO = new NoticeFilesVO();
+		noticeFilesVO.setNum(boardVO.getNum());
+		
+		for(MultipartFile multipartFile:file) {
+			if(multipartFile.getOriginalFilename()!="") {
+				String fileName = fileSaver.save(realPath, multipartFile);
+				noticeFilesVO.setFname(fileName);
+				noticeFilesVO.setOname(multipartFile.getOriginalFilename());
+				
+				noticeFilesDAO.fileWrite(noticeFilesVO);
+			}
+		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 		return boardNoticeDAO.boardUpdate(boardVO);
 	}
 

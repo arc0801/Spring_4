@@ -28,7 +28,7 @@ public class NoticeController {
 	
 	@GetMapping("fileDown")
 	public ModelAndView fileDown(NoticeFilesVO noticeFilesVO) throws Exception {
-		noticeFilesVO= boardNoticeService.fileSelect(noticeFilesVO);
+		noticeFilesVO = boardNoticeService.fileSelect(noticeFilesVO);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("file", noticeFilesVO);
 		mv.addObject("board", "notice");
@@ -51,6 +51,7 @@ public class NoticeController {
 		mv.addObject("result", result);
 		mv.addObject("path", "notice/noticeList");
 		mv.setViewName("common/common_ajaxResult");
+		
 		return mv;
 	}
 	

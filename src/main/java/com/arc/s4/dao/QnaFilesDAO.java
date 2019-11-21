@@ -16,6 +16,14 @@ public class QnaFilesDAO {
 	private SqlSession sqlSession;
 	private static final String NAMESPACE = "qnaFilesMapper.";
 	
+	public QnaFilesVO fileSelect(QnaFilesVO qnaFilesVO) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"fileSelect", qnaFilesVO);
+	}
+	
+	public int fileDelete(QnaFilesVO qnaFilesVO) throws Exception {
+		return sqlSession.delete(NAMESPACE+"fileDelete", qnaFilesVO);
+	}
+	
 	public List<QnaFilesVO> filesList(int num) throws Exception {
 		return sqlSession.selectList(NAMESPACE+"fileList", num);
 	}

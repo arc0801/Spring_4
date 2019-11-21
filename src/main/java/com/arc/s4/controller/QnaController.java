@@ -5,7 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileDeleteStrategy;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.arc.s4.model.BoardQnaVO;
 import com.arc.s4.model.BoardVO;
+import com.arc.s4.model.QnaFilesVO;
 import com.arc.s4.service.BoardQnaService;
 import com.arc.s4.util.Pager;
 
@@ -22,6 +26,34 @@ public class QnaController {
 
 	@Inject
 	private BoardQnaService boardQnaService;
+	
+	@GetMapping("fileDown")
+	public ModelAndView fileDown(QnaFilesVO qnaFilesVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		qnaFilesVO = boardQnaService.fileSelect(qnaFilesVO);
+		mv.addObject("file", qnaFilesVO);
+		mv.addObject("board", "qna");
+		mv.setViewName("fileDown");
+		
+		return mv;
+	}
+	
+	@PostMapping("fileDelete")
+	public ModelAndView fileDelete(QnaFilesVO qnaFilesVO) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		int result = boardQnaService.fileDelete(qnaFilesVO);
+		
+		if(result>0) {
+			mv.addObject("msg", "Delete Success");
+		}else {
+			mv.addObject("msg", "Delete Fail");
+		}
+		mv.addObject("result", result);
+		mv.addObject("path", "qna/qnaList");
+		mv.setViewName("common/common_ajaxResult");
+		
+		return mv;
+	}
 	
 	@RequestMapping(value = "qnaReply", method = RequestMethod.POST)
 	public ModelAndView boardReply(BoardVO boardVO) throws Exception {
@@ -64,9 +96,10 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value = "qnaUpdate", method = RequestMethod.POST)
-	public ModelAndView boardUpdate(BoardQnaVO boardQnaVO) throws Exception {
+	public ModelAndView boardUpdate(BoardQnaVO boardQnaVO, MultipartFile [] file, HttpSession session) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		int result = boardQnaService.boardUpdate(boardQnaVO);
+		int result = boardQnaService.boardUpdate(boardQnaVO, file, session);
+		
 		if(result>0) {
 			mv.addObject("msg", "Update Success");
 		}else {

@@ -14,6 +14,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.arc.s4.model.NoticeFilesVO;
+import com.arc.s4.model.QnaFilesVO;
 
 @Component
 public class FileDown extends AbstractView{
@@ -24,8 +25,10 @@ public class FileDown extends AbstractView{
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		//System.out.println("FileDown Class");
-		NoticeFilesVO noticeFilesVO = (NoticeFilesVO)model.get("file");
 		String board = (String)model.get("board");
+		
+		NoticeFilesVO noticeFilesVO = (NoticeFilesVO)model.get("file");
+		QnaFilesVO qnaFilesVO = (QnaFilesVO)model.get("file");
 	
 		//System.out.println(noticeFilesVO.getFname());
 		//System.out.println(noticeFilesVO.getOname());
@@ -35,6 +38,9 @@ public class FileDown extends AbstractView{
 		System.out.println(realPath);
 		
 		File file = new File(realPath, noticeFilesVO.getFname());
+		if(board.equals("qna")){
+			file = new File(realPath, qnaFilesVO.getFname());
+		}
 		
 		//한글파일명 처리
 		response.setCharacterEncoding("UTF-8");
@@ -44,6 +50,9 @@ public class FileDown extends AbstractView{
 		
 		//다운로드시 파일 이름 인코딩
 		String fileName = URLEncoder.encode(noticeFilesVO.getOname(), "UTF-8");
+		if(board.equals("qna")){
+			fileName = URLEncoder.encode(qnaFilesVO.getOname(), "UTF-8");
+		}
 		
 		//header 설정
 		response.setHeader("Content-disposition", "attachment;filename=\""+fileName+"\"");

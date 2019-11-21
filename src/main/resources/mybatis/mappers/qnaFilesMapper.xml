@@ -4,6 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="qnaFilesMapper">
+	<select id="fileSelect" resultType="QnaFilesVO" parameterType="QnaFilesVO">
+		select * from qnaFiles where fnum=#{fnum}
+	</select>
+	
+	<delete id="fileDelete" parameterType="QnaFilesVO">
+		delete qnaFiles where fnum=#{fnum}
+	</delete>
+	
 	<insert id="fileWrite" parameterType="QnaFilesVO">
 		insert into qnaFiles values(file_seq.nextval, #{num}, #{fname}, #{oname})
 	</insert>

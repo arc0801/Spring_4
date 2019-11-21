@@ -26,6 +26,14 @@ public class BoardQnaService implements BoardService {
 	@Inject
 	private FileSaver fileSaver;
 	
+	public QnaFilesVO fileSelect(QnaFilesVO qnaFilesVO) throws Exception {
+		return qnaFilesDAO.fileSelect(qnaFilesVO);
+	}
+	
+	public int fileDelete(QnaFilesVO qnaFilesVO) throws Exception {
+		return qnaFilesDAO.fileDelete(qnaFilesVO);
+	}
+	
 	public int boardReply(BoardVO boardVO) throws Exception {
 		boardQnaDAO.boardReplyUpdate(boardVO);
 		
@@ -63,19 +71,36 @@ public class BoardQnaService implements BoardService {
 		qnaFilesVO.setNum(boardVO.getNum());
 		
 		for(MultipartFile multipartFile:file) {
-			String fileName = fileSaver.save(realPath, multipartFile);
-			qnaFilesVO.setFname(fileName);
-			qnaFilesVO.setOname(multipartFile.getOriginalFilename());
-			
-			result = qnaFilesDAO.fileWrite(qnaFilesVO);
+			if(multipartFile.getOriginalFilename()!="") {
+				String fileName = fileSaver.save(realPath, multipartFile);
+				qnaFilesVO.setFname(fileName);
+				qnaFilesVO.setOname(multipartFile.getOriginalFilename());
+				
+				result = qnaFilesDAO.fileWrite(qnaFilesVO);
+			}
 		}
 		
 		return result;
 	}
 
 	@Override
-	public int boardUpdate(BoardVO boardVO) throws Exception {
+	public int boardUpdate(BoardVO boardVO, MultipartFile [] file, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
+		String realPath = session.getServletContext().getRealPath("resources/upload/qna");
+		
+		QnaFilesVO qnaFilesVO = new QnaFilesVO();
+		qnaFilesVO.setNum(boardVO.getNum());
+		
+		for(MultipartFile multipartFile:file) {
+			if(multipartFile.getOriginalFilename()!="") {
+				String fname = fileSaver.save(realPath, multipartFile);
+				qnaFilesVO.setFname(fname);
+				qnaFilesVO.setOname(multipartFile.getOriginalFilename());
+				
+				qnaFilesDAO.fileWrite(qnaFilesVO);
+			}
+		}
+		
 		return boardQnaDAO.boardUpdate(boardVO);
 	}
 

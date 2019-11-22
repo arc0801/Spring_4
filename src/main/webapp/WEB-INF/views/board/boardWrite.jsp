@@ -52,18 +52,55 @@
 	
 <script type="text/javascript">
 	
-	$('#btn').click(function() {
+	/* $('#btn').click(function() {
 		alert($('#contents').summernote('code'));
-	});
+	}); */
 
 	$('#contents').summernote({
-		 height: 300                 // set editor height
+		 height: 500,                 // set editor height
 		 //minHeight: null,             // set minimum height of editor
 		 //maxHeight: null,             // set maximum height of editor
 		 //focus: true                  // set focus to editable area after initializing summernote
+		 callbacks:{
+			 onImageUpload: function(files, editor) {
+				uploadFile(files[0], this);
+			},//upload
+			onMediaDelete: function(files, editor) {
+				deleteFile(files[0], this);
+			}//delete
+		 }//callbacks의 끝
 	});
-
-	$('#contents').summernote('code', 'Hello :)');
+	
+	function deleteFile(file, editor) {
+		console.log(file);
+	}
+	
+	function uploadFile(file, editor) {
+		//alert('upload');
+		var formData = new FormData();	//<form>태그처럼 생각해~	
+		formData.append('file', file);  //parameter 추가
+		$.ajax({
+			data: formData,
+			type: "POST",
+			url: "./summerFile",
+			enctype: "multipart/form-data", //file 업로드하려면 써줘라1
+			contentType: false, //file 업로드하려면 써줘라2
+			cache: false, //file 업로드하려면 써줘라3
+			processData: false,
+			success: function(data) {
+				//console.log(data);
+				data = data.trim();
+				data = '../resources/upload/summerFile/'+data;
+				$(editor).summernote('insertImage', data);
+			}
+			//error: function() {
+			//	
+			//}
+		});
+	}
+	
+	
+	//$('#contents').summernote('code', 'Hello :)');
 
 	var files = $('#files').html();
 	$('#files').empty(); //remove vs empty ; 나 포함 전체 지우기 vs 자식만 지우기

@@ -29,12 +29,17 @@ public class BoardNoticeService implements BoardService {
 	@Inject
 	private NoticeFilesDAO noticeFilesDAO;
 	
-	public FilesVO fileSelect(FilesVO noticeFilesVO) throws Exception {
-		return noticeFilesDAO.fileSelect(noticeFilesVO);
+	public String summerFile(MultipartFile file, HttpSession session) throws Exception {
+		String realPath = session.getServletContext().getRealPath("resources/upload/summerFile");
+		return fileSaver.save(realPath, file);
 	}
 	
-	public int fileDelete(FilesVO noticeFilesVO) throws Exception {
-		return noticeFilesDAO.fileDelete(noticeFilesVO);
+	public FilesVO fileSelect(FilesVO filesVO) throws Exception {
+		return noticeFilesDAO.fileSelect(filesVO);
+	}
+	
+	public int fileDelete(FilesVO filesVO) throws Exception {
+		return noticeFilesDAO.fileDelete(filesVO);
 	}
 	
 	@Override

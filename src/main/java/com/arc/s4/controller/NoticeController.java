@@ -26,6 +26,17 @@ public class NoticeController {
 	@Inject
 	private BoardNoticeService boardNoticeService;
 	
+	@PostMapping("summerFile")
+	public ModelAndView summerFile(MultipartFile file, HttpSession session) throws Exception {
+		//System.out.println(file.getOriginalFilename());
+		String fileName = boardNoticeService.summerFile(file, session);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("common/common_ajaxResult");
+		mv.addObject("result", fileName);
+		
+		return mv;
+	}
+	
 	@GetMapping("fileDown")
 	public ModelAndView fileDown(FilesVO filesVO) throws Exception {
 		filesVO = boardNoticeService.fileSelect(filesVO);

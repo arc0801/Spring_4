@@ -38,8 +38,12 @@
 	    </tbody>
 	  </table>
 	  
-	  <div class="contents">
-		${select.contents}
+	  
+	  <div class="form-group">
+	      <label for="contents">Contents:</label>
+		  <div class="contents">
+			${select.contents}
+		  </div>
 	  </div>
 	  
 	  <%-- <div class="form-group">

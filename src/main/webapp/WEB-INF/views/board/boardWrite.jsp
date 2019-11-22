@@ -72,7 +72,21 @@
 	});
 	
 	function deleteFile(file, editor) {
-		console.log(file);
+		//console.log(file);
+		var fileName = $(file).attr('src');
+		//console.log(fileName);
+		fileName = fileName.substring(fileName.lastIndexOf('/')+1);
+		//console.log(fileName);
+		$.ajax({
+			type: "POST",
+			url: "./summerFileDelete",
+			data: {
+				file:fileName
+			},
+			success: function(data) {
+				console.log(data);
+			}
+		});
 	}
 	
 	function uploadFile(file, editor) {

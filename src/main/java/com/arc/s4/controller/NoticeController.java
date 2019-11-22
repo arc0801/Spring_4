@@ -26,6 +26,22 @@ public class NoticeController {
 	@Inject
 	private BoardNoticeService boardNoticeService;
 	
+	@PostMapping("summerFileDelete")
+	public ModelAndView summerFileDelete(String file, HttpSession session) throws Exception {
+		boolean check = boardNoticeService.summerFileDelete(file, session);
+		String result = "Delete Fail";
+		
+		if(check) {
+			result = "Delete Success";
+		}
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("common/common_ajaxResult");
+		mv.addObject("result", result);
+		
+		return mv;
+	}
+	
 	@PostMapping("summerFile")
 	public ModelAndView summerFile(MultipartFile file, HttpSession session) throws Exception {
 		//System.out.println(file.getOriginalFilename());

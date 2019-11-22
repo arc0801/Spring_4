@@ -12,7 +12,6 @@
 	.contents {
 		background-color: lightgray;
 		width: 100%;
-		height: 200px;
 		padding: 20px;
 		font-size: 15px;
 		margin-bottom: 20px;
@@ -43,12 +42,12 @@
 		${select.contents}
 	  </div>
 	  
-	  <div class="form-group">
+	  <%-- <div class="form-group">
 	      <label for="contents">Contents:</label>
 	      <textarea  rows="20" cols="50" class="form-control" id="contents" value="${select.contents}" name="contents"></textarea>
-	    </div>
+	    </div> --%>
+	    
 	  <div>
-	  
 	  	<c:forEach items="${select.files}" var="file">
 	  		<a href="./fileDown?fnum=${file.fnum}">${file.oname}</a>
 	  	</c:forEach>

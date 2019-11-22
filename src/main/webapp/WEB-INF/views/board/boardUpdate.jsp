@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="../layout/bootStrap.jsp" />
+<c:import url="../layout/summernote.jsp" />
 </head>
 <body>
 <c:import url="../layout/nav.jsp" />
@@ -32,7 +33,7 @@
 	    
 	    <div class="form-group">
 	      <label for="contents">Contents:</label>
-	      <textarea  rows="20" cols="50" class="form-control" id="contents" placeholder="Enter Contents" name="contents">${update.contents}</textarea>
+	      <textarea class="form-control" id="contents" name="contents"></textarea>
 	    </div>
 	    
 	    <div>
@@ -62,40 +63,48 @@
 	    </form>
 	</div>
 	
-	<script type="text/javascript">
-		var files =$('#files').html(); 
-		$('#files').empty();
-		//var check = ${size};
-		var check = ${fn:length(update.files)};
-		
-		$('.del_file').click(function() {
-			//alert("del");
-			//alert(fnum);
-			var fnum = $(this).attr("id");
-			$.post("./fileDelete", {fnum:fnum}, function(data) {
-				alert(data);
-				//consol.log;
-				data = data.trim();
-				if(data == '1'){
-					$("#f"+fnum).remove();
-					check--;
-				}
-			});
-		})
-				
-		$('#btn_add').click(function() {
-			if(check<5){
-				$('#files').append(files);
-				check++;
-			}else {
-				alert("최대 5개까지 가능합니다.")
+<script type="text/javascript">
+	$('#contents').summernote({
+		height: 500
+	});
+	
+	$('#contents').summernote('code', '${update.contents}');
+	
+	//$('#contents').
+	
+	var files =$('#files').html(); 
+	$('#files').empty();
+	//var check = ${size};
+	var check = ${fn:length(update.files)};
+	
+	$('.del_file').click(function() {
+		//alert("del");
+		//alert(fnum);
+		var fnum = $(this).attr("id");
+		$.post("./fileDelete", {fnum:fnum}, function(data) {
+			alert(data);
+			//consol.log;
+			data = data.trim();
+			if(data == '1'){
+				$("#f"+fnum).remove();
+				check--;
 			}
 		});
-		
-		$('#files').on("click", ".del", function() {
-			$(this).parents(".tt").remove();
-			check--;
-		});
-	</script>
+	})
+			
+	$('#btn_add').click(function() {
+		if(check<5){
+			$('#files').append(files);
+			check++;
+		}else {
+			alert("최대 5개까지 가능합니다.")
+		}
+	});
+	
+	$('#files').on("click", ".del", function() {
+		$(this).parents(".tt").remove();
+		check--;
+	});
+</script>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="../layout/bootStrap.jsp" />
+<c:import url="../layout/summernote.jsp" />
 </head>
 <body>
 <c:import url="../layout/nav.jsp" />
@@ -28,11 +29,17 @@
 	    
 	    <div class="form-group">
 	      <label for="contents">Contents:</label>
-	      <textarea  rows="20" cols="50" class="form-control" id="contents" placeholder="Enter Contents" name="contents"></textarea>
+	      <textarea class="form-control" id="contents" name="contents"></textarea>
 	    </div>
 	    
 	     <button class="btn btn-info">Submit</button>
 	    </form>
 	</div>
+	
+<script type="text/javascript">
+	$('#contents').summernote({
+		height: 500
+	});
+</script>
 </body>
 </html>

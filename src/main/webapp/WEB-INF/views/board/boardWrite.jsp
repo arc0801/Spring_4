@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="../layout/bootStrap.jsp" />
+<c:import url="../layout/summernote.jsp" />
 </head>
 <body>
 <c:import url="../layout/nav.jsp" />
@@ -26,7 +27,7 @@
 	    
 	    <div class="form-group">
 	      <label for="contents">Contents:</label>
-	      <textarea  rows="20" cols="50" class="form-control" id="contents" placeholder="Enter Contents" name="contents"></textarea>
+	      <textarea class="form-control" id="contents" name="contents"></textarea>
 	    </div>
 	    
 	    <div id="files">
@@ -45,10 +46,25 @@
 	    <input type="button" id="btn_add" class="btn btn-success" value="Add File">
 	    
 	     <button class="btn btn-info">Submit</button>
+	     <input type="button" value="test" id="btn">
 	    </form>
 	</div>
 	
 <script type="text/javascript">
+	
+	$('#btn').click(function() {
+		alert($('#contents').summernote('code'));
+	});
+
+	$('#contents').summernote({
+		 height: 300                 // set editor height
+		 //minHeight: null,             // set minimum height of editor
+		 //maxHeight: null,             // set maximum height of editor
+		 //focus: true                  // set focus to editable area after initializing summernote
+	});
+
+	$('#contents').summernote('code', 'Hello :)');
+
 	var files = $('#files').html();
 	$('#files').empty(); //remove vs empty ; 나 포함 전체 지우기 vs 자식만 지우기
 	var check = 0;

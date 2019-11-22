@@ -89,14 +89,14 @@ public class NoticeController {
 	@RequestMapping("noticeUpdate")
 	public ModelAndView boardUpdate(BoardVO boardVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		boardVO = boardNoticeService.boardSelect(boardVO);
+		BoardVO boardVO2 = boardNoticeService.boardSelect(boardVO);
 		
-		if(boardVO != null) {
-			BoardNoticeVO noticeVO = (BoardNoticeVO)boardVO;
+		if(boardVO2 != null) {
+			BoardNoticeVO noticeVO = (BoardNoticeVO)boardVO2;
 			int size = noticeVO.getFiles().size();
 			mv.addObject("size", size);
 			mv.addObject("board", "notice");
-			mv.addObject("update", boardVO);
+			mv.addObject("update", boardVO2);
 			mv.setViewName("board/boardUpdate");
 		}else {
 			mv.addObject("msg", "No Contents");
@@ -108,13 +108,13 @@ public class NoticeController {
 	
 	@RequestMapping("noticeSelect")
 	public ModelAndView boardSelect(BoardVO boardVO) throws Exception {
-		BoardVO boardVO2 = boardNoticeService.boardSelect(boardVO);
+		boardVO = boardNoticeService.boardSelect(boardVO);
 		ModelAndView mv = new ModelAndView();
 		
 		if(boardVO != null) {
 			boardVO.setContents(boardVO.getContents().replace("\r\n", "<br>"));
 			mv.addObject("board", "notice");
-			mv.addObject("select", boardVO2);
+			mv.addObject("select", boardVO);
 			mv.setViewName("board/boardSelect");
 		}
 		

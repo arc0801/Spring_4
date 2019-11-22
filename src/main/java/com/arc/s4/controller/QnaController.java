@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.arc.s4.model.BoardQnaVO;
 import com.arc.s4.model.BoardVO;
-import com.arc.s4.model.QnaFilesVO;
+import com.arc.s4.model.FilesVO;
 import com.arc.s4.service.BoardQnaService;
 import com.arc.s4.util.Pager;
 
@@ -28,10 +28,10 @@ public class QnaController {
 	private BoardQnaService boardQnaService;
 	
 	@GetMapping("fileDown")
-	public ModelAndView fileDown(QnaFilesVO qnaFilesVO) throws Exception {
+	public ModelAndView fileDown(FilesVO filesVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		qnaFilesVO = boardQnaService.fileSelect(qnaFilesVO);
-		mv.addObject("file", qnaFilesVO);
+		filesVO = boardQnaService.fileSelect(filesVO);
+		mv.addObject("file", filesVO);
 		mv.addObject("board", "qna");
 		mv.setViewName("fileDown");
 		
@@ -39,9 +39,9 @@ public class QnaController {
 	}
 	
 	@PostMapping("fileDelete")
-	public ModelAndView fileDelete(QnaFilesVO qnaFilesVO) throws Exception {
+	public ModelAndView fileDelete(FilesVO filesVO) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		int result = boardQnaService.fileDelete(qnaFilesVO);
+		int result = boardQnaService.fileDelete(filesVO);
 		
 		if(result>0) {
 			mv.addObject("msg", "Delete Success");

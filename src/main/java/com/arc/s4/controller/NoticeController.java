@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.arc.s4.model.BoardNoticeVO;
 import com.arc.s4.model.BoardVO;
-import com.arc.s4.model.NoticeFilesVO;
+import com.arc.s4.model.FilesVO;
 import com.arc.s4.service.BoardNoticeService;
 import com.arc.s4.util.Pager;
 
@@ -27,10 +27,10 @@ public class NoticeController {
 	private BoardNoticeService boardNoticeService;
 	
 	@GetMapping("fileDown")
-	public ModelAndView fileDown(NoticeFilesVO noticeFilesVO) throws Exception {
-		noticeFilesVO = boardNoticeService.fileSelect(noticeFilesVO);
+	public ModelAndView fileDown(FilesVO filesVO) throws Exception {
+		filesVO = boardNoticeService.fileSelect(filesVO);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("file", noticeFilesVO);
+		mv.addObject("file", filesVO);
 		mv.addObject("board", "notice");
 		mv.setViewName("fileDown");
 		
@@ -38,10 +38,10 @@ public class NoticeController {
 	}
 	
 	@PostMapping("fileDelete")
-	public ModelAndView fileDelete(NoticeFilesVO noticeFilesVO) throws Exception {
+	public ModelAndView fileDelete(FilesVO filesVO) throws Exception {
 		//System.out.println(noticeFilesVO.getFnum());
 		ModelAndView mv = new ModelAndView();
-		int result = boardNoticeService.fileDelete(noticeFilesVO);
+		int result = boardNoticeService.fileDelete(filesVO);
 		
 		if(result>0) {
 			mv.addObject("msg", "Delete Success");

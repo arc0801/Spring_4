@@ -5,8 +5,7 @@
   
   <configuration>
   	<typeAliases>
-  		<typeAlias type="com.arc.s4.model.QnaFilesVO" alias="QnaFilesVO"/>
-  		<typeAlias type="com.arc.s4.model.NoticeFilesVO" alias="NoticeFilesVO"/>
+  		<typeAlias type="com.arc.s4.model.FilesVO" alias="FilesVO"/>
   	
   		<typeAlias type="com.arc.s4.model.MemberVO" alias="MemberVO"/>
   	

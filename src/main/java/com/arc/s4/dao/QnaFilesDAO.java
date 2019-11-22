@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.arc.s4.model.QnaFilesVO;
+import com.arc.s4.model.FilesVO;
 
 @Repository
 public class QnaFilesDAO {
@@ -16,19 +16,19 @@ public class QnaFilesDAO {
 	private SqlSession sqlSession;
 	private static final String NAMESPACE = "qnaFilesMapper.";
 	
-	public QnaFilesVO fileSelect(QnaFilesVO qnaFilesVO) throws Exception {
-		return sqlSession.selectOne(NAMESPACE+"fileSelect", qnaFilesVO);
+	public FilesVO fileSelect(FilesVO filesVO) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"fileSelect", filesVO);
 	}
 	
-	public int fileDelete(QnaFilesVO qnaFilesVO) throws Exception {
-		return sqlSession.delete(NAMESPACE+"fileDelete", qnaFilesVO);
+	public int fileDelete(FilesVO filesVO) throws Exception {
+		return sqlSession.delete(NAMESPACE+"fileDelete", filesVO);
 	}
 	
-	public List<QnaFilesVO> filesList(int num) throws Exception {
+	public List<FilesVO> filesList(int num) throws Exception {
 		return sqlSession.selectList(NAMESPACE+"fileList", num);
 	}
 	
-	public int fileWrite(QnaFilesVO qnaFilesVO) throws Exception {
+	public int fileWrite(FilesVO qnaFilesVO) throws Exception {
 		return sqlSession.insert(NAMESPACE+"fileWrite", qnaFilesVO);
 	}
 }

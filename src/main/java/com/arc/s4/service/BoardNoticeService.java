@@ -13,7 +13,7 @@ import com.arc.s4.dao.BoardNoticeDAO;
 import com.arc.s4.dao.NoticeFilesDAO;
 import com.arc.s4.model.BoardNoticeVO;
 import com.arc.s4.model.BoardVO;
-import com.arc.s4.model.NoticeFilesVO;
+import com.arc.s4.model.FilesVO;
 import com.arc.s4.util.FileSaver;
 import com.arc.s4.util.Pager;
 
@@ -29,11 +29,11 @@ public class BoardNoticeService implements BoardService {
 	@Inject
 	private NoticeFilesDAO noticeFilesDAO;
 	
-	public NoticeFilesVO fileSelect(NoticeFilesVO noticeFilesVO) throws Exception {
+	public FilesVO fileSelect(FilesVO noticeFilesVO) throws Exception {
 		return noticeFilesDAO.fileSelect(noticeFilesVO);
 	}
 	
-	public int fileDelete(NoticeFilesVO noticeFilesVO) throws Exception {
+	public int fileDelete(FilesVO noticeFilesVO) throws Exception {
 		return noticeFilesDAO.fileDelete(noticeFilesVO);
 	}
 	
@@ -63,7 +63,7 @@ public class BoardNoticeService implements BoardService {
 	public int boardWrite(BoardVO boardVO, MultipartFile [] file, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
 		String realPath = session.getServletContext().getRealPath("resources/upload/notice");
-		NoticeFilesVO noticeFilesVO = new NoticeFilesVO();
+		FilesVO noticeFilesVO = new FilesVO();
 		int result = boardNoticeDAO.boardWrite(boardVO);
 		//System.out.println(boardVO.getNum());
 		noticeFilesVO.setNum(boardVO.getNum());
@@ -87,7 +87,7 @@ public class BoardNoticeService implements BoardService {
 		// TODO Auto-generated method stub
 		String realPath = session.getServletContext().getRealPath("resources/upload/notice");
 		
-		NoticeFilesVO noticeFilesVO = new NoticeFilesVO();
+		FilesVO noticeFilesVO = new FilesVO();
 		noticeFilesVO.setNum(boardVO.getNum());
 		
 		for(MultipartFile multipartFile:file) {

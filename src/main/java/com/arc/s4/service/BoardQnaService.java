@@ -10,9 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.arc.s4.dao.BoardQnaDAO;
 import com.arc.s4.dao.QnaFilesDAO;
-import com.arc.s4.model.BoardQnaVO;
 import com.arc.s4.model.BoardVO;
-import com.arc.s4.model.QnaFilesVO;
+import com.arc.s4.model.FilesVO;
 import com.arc.s4.util.FileSaver;
 import com.arc.s4.util.Pager;
 
@@ -26,12 +25,12 @@ public class BoardQnaService implements BoardService {
 	@Inject
 	private FileSaver fileSaver;
 	
-	public QnaFilesVO fileSelect(QnaFilesVO qnaFilesVO) throws Exception {
-		return qnaFilesDAO.fileSelect(qnaFilesVO);
+	public FilesVO fileSelect(FilesVO filesVO) throws Exception {
+		return qnaFilesDAO.fileSelect(filesVO);
 	}
 	
-	public int fileDelete(QnaFilesVO qnaFilesVO) throws Exception {
-		return qnaFilesDAO.fileDelete(qnaFilesVO);
+	public int fileDelete(FilesVO filesVO) throws Exception {
+		return qnaFilesDAO.fileDelete(filesVO);
 	}
 	
 	public int boardReply(BoardVO boardVO) throws Exception {
@@ -67,16 +66,16 @@ public class BoardQnaService implements BoardService {
 		// TODO Auto-generated method stub
 		String realPath = session.getServletContext().getRealPath("resources/upload/qna");
 		int result = boardQnaDAO.boardWrite(boardVO);
-		QnaFilesVO qnaFilesVO = new QnaFilesVO();
-		qnaFilesVO.setNum(boardVO.getNum());
+		FilesVO filesVO = new FilesVO();
+		filesVO.setNum(boardVO.getNum());
 		
 		for(MultipartFile multipartFile:file) {
 			if(multipartFile.getOriginalFilename()!="") {
 				String fileName = fileSaver.save(realPath, multipartFile);
-				qnaFilesVO.setFname(fileName);
-				qnaFilesVO.setOname(multipartFile.getOriginalFilename());
+				filesVO.setFname(fileName);
+				filesVO.setOname(multipartFile.getOriginalFilename());
 				
-				result = qnaFilesDAO.fileWrite(qnaFilesVO);
+				result = qnaFilesDAO.fileWrite(filesVO);
 			}
 		}
 		
@@ -88,7 +87,7 @@ public class BoardQnaService implements BoardService {
 		// TODO Auto-generated method stub
 		String realPath = session.getServletContext().getRealPath("resources/upload/qna");
 		
-		QnaFilesVO qnaFilesVO = new QnaFilesVO();
+		FilesVO qnaFilesVO = new FilesVO();
 		qnaFilesVO.setNum(boardVO.getNum());
 		
 		for(MultipartFile multipartFile:file) {

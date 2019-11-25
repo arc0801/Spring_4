@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Transfer { //join point
 
-	public void getCar() {
+	public void car() {
 		System.out.println("---- MyCar ----");
 		System.out.println("운전하기");
 		System.out.println("---- MyCar ----");
 	}
 	
-	public void getTaxi() {
+	public void taxi() {
 		System.out.println("---- Taxi ----");
 		System.out.println("기사님과 대화하기");
 		System.out.println("---- Taxi ----");

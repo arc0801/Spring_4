@@ -50,8 +50,10 @@
 		  	</c:if>	
 	  </div>
 	  
+	  <c:if test="${not empty member}">
 	  	<a href="${board}Write" class="btn btn-info">Write</a>
-	  	
+	  </c:if>	
+	  
 	  	<div> <!-- 검색창 -->
 	  		<form id="frm" action="./${board}List">
 	  			<input type="hidden" id="curPage" value="1" name="curPage">

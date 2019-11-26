@@ -1,5 +1,6 @@
 package com.arc.s4.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.arc.s4.dao.BoardNoticeDAO;
@@ -18,6 +20,7 @@ import com.arc.s4.util.FileSaver;
 import com.arc.s4.util.Pager;
 
 @Service
+//@Transactional
 public class BoardNoticeService implements BoardService {
 
 	@Inject
@@ -69,6 +72,7 @@ public class BoardNoticeService implements BoardService {
 		return boardNoticeDAO.boardSelect(boardVO);
 	}
 
+	@Transactional
 	@Override
 	public int boardWrite(BoardVO boardVO, MultipartFile [] file, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
@@ -86,12 +90,16 @@ public class BoardNoticeService implements BoardService {
 				noticeFilesVO.setOname(multipartFile.getOriginalFilename());
 				
 				result = noticeFilesDAO.fileWrite(noticeFilesVO);
+				if(result<1) {
+					throw new SQLException();
+				}
 			}
 		}
 		
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public int boardUpdate(BoardVO boardVO, MultipartFile [] file, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
@@ -112,6 +120,7 @@ public class BoardNoticeService implements BoardService {
 		return boardNoticeDAO.boardUpdate(boardVO);
 	}
 
+	@Transactional
 	@Override
 	public int boardDelete(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub

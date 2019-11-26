@@ -31,8 +31,13 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
 		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
+		try {
+			model.addAttribute("serverTime", formattedDate );
+			String a = "abc";
+			a.charAt(10);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		/*
 		 * String year = "2000"; String month = "12"; String day = "24";
 		 * 
